@@ -13,6 +13,7 @@ export interface PropertyDescription {
     baths: number;
     square_feet: number;
     address: Address;
+    property_type: string;
 }
 
 export interface PropertyDetails {

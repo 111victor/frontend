@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { PropertyDescription } from "../../interfaces/propertyDescription";
 import { formatAddress, formatCurrency } from "../../transformers/transformers";
+import './property-description.component.css';
 
 
 const PropertyDescriptionComponent = ({ propertyDescription } : { propertyDescription: PropertyDescription }) => {
