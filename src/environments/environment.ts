@@ -1,3 +1,4 @@
 export const environment = {
-  apiUri: "http://localhost:3000/properties",
+  propertyApiUri: "http://localhost:3000/properties",
+  commentApiUri: "http://localhost:3000/comments",
 };

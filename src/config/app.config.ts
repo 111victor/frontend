@@ -1,6 +1,8 @@
 import { environment } from "../environments/environment";
 
-export const apiBaseUri = `${environment.apiUri}`;
+export const propertyApiUri = `${environment.propertyApiUri}`;
+export const commentApiUri = `${environment.commentApiUri}`;
+
 
 export const AppConfig = {
   paths: {
