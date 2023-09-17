@@ -1,0 +1,31 @@
+.checkbox-menu a label {
+    display: block;
+    padding: 3px 10px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+    margin:0;
+    transition: background-color .4s ease;
+}
+.checkbox-menu a input {
+    margin: 0px 5px;
+    top: 2px;
+    position: relative;
+}
+
+.checkbox-menu a.active label {
+    background-color: #cbcbff;
+    font-weight:bold;
+}
+
+.checkbox-menu a label:hover,
+.checkbox-menu a label:focus {
+    background-color: #f5f5f5;
+}
+
+.checkbox-menu a.active label:hover,
+.checkbox-menu a.active label:focus {
+    background-color: #b8b8ff;
+}

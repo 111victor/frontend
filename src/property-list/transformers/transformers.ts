@@ -1,4 +1,4 @@
-import { Address } from "../interfaces/propertyDescription";
+import { Address } from "../interfaces/property-description.interface";
 
 export const formatCurrency = (price) => {
     const formatter = new Intl.NumberFormat('en-US', {

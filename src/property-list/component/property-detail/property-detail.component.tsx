@@ -1,32 +1,37 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom"
-import { fetchProperty } from "../../services/property.service";
+import { Link, useLocation, useParams } from "react-router-dom"
+import { fetchProperty, updateVote } from "../../services/property.service";
 import { formatCurrency, formatAddress } from "../../transformers/transformers";
+import VotingButtonsComponent from "../vote-buttons/voting-buttons.component";
+
 
 
 const PropertyDetailComponent = () => {
     const params = useParams();
+    const location = useLocation();
+    const search = location.state?.search || '';
     const [propertyDetail, setPropertyDetail] = useState(null);
+    const fetchNewProperty = (id) => {
+        fetchProperty(id).then((propertyDetail) => {
+            setPropertyDetail(propertyDetail);
+        });
+    };
 
-    const fetchNewProperty = (id: number) => {
-        fetchProperty(id).then(
-            (propertyDetail) => {
-                setPropertyDetail(propertyDetail);
-                console.log(propertyDetail)
-            }
-        );
-    }
     useEffect(() => {  
-        fetchNewProperty(Number(params.id));
+        fetchNewProperty(parseInt(params.id));
     }, [params.id]);
+    
     return (
         <>  
-            <Link to={'/'}>
+            <Link 
+                to={`..${search}`}
+                relative="path"
+            >
                 <button>Back</button>
             </Link>
             <div className="col-sm-3 py-2">
                 {propertyDetail ? (
-                                <div className="card">
+                            <div className="card">
                                 <img src="..." className="card-img-top" alt="..." />
                                 <div className="card-body">
                                     <h5 className="card-title">Price: {formatCurrency(propertyDetail.price)}</h5>
@@ -34,6 +39,9 @@ const PropertyDetailComponent = () => {
                                     <p className="card-text">{formatAddress(propertyDetail.address)}</p>
                                     {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
                                 </div>
+                                <VotingButtonsComponent
+                                    propertyDetail= {propertyDetail}
+                                 />
                             </div>
                     ): <h2>Loading...</h2>
                 }

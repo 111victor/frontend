@@ -14,6 +14,8 @@ export interface PropertyDescription {
     square_feet: number;
     address: Address;
     property_type: string;
+    upvote: number;
+    downvote: number;
 }
 
 export interface PropertyDetails {
@@ -34,4 +36,6 @@ export interface PropertyDetails {
     identifier: string;
     latitude: string;
     longitude: string;
+    upvote: number;
+    downvote: number;
 }
