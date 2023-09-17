@@ -72,9 +72,10 @@ const FilterComponent = ({ setFilters }) => {
             </li>
           </ul>
         </div>
-        <div className="col-auto">
+        <div className="col-auto d-flex align-items-center">
           <label>Bedrooms:</label>
           <select
+            className="form-select"
             value={bedrooms}
             onChange={(e) => setBedrooms(e.target.value)}
           >
@@ -86,9 +87,10 @@ const FilterComponent = ({ setFilters }) => {
             <option value="5">5+</option>
           </select>
         </div>
-        <div className="col-auto">
+        <div className="col-auto d-flex align-items-center">
           <label>Bathrooms:</label>
           <select
+            className="form-select"
             value={bathrooms}
             onChange={(e) => setBathrooms(e.target.value)}
           >
@@ -100,7 +102,7 @@ const FilterComponent = ({ setFilters }) => {
             <option value="5">5+</option>
           </select>
         </div>
-        <div>
+        <div className="col-auto d-flex">
           <button type="button" onClick={() => handleFilterApply("Apply")}>
             Apply Filters
           </button>

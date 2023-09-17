@@ -60,7 +60,7 @@ const Properties = () => {
     filteredProperties.sort((a, b) => b.upvote - a.upvote);
   } else if (sortType === sortTypes.NotRecommended) {
     filteredProperties.sort((a, b) => b.downvote - a.downvote);
-  } 
+  }
 
   const fetchNewProperties = (nextPageNumber) => {
     fetchPropertyLists(nextPageNumber, 10).then((propertyDescriptions) => {
@@ -90,16 +90,11 @@ const Properties = () => {
         <div className="row">
           {filteredProperties.map(
             (propertyDescription: PropertyDescription) => (
-              <div className="col-sm-3 py-2" key={propertyDescription.id}>
-                <Link
-                  to={propertyDescription.id.toString()}
-                  state={{ search: `?${searchParams.toString()}` }}
-                >
-                  <PropertyDescriptionComponent
-                    propertyDescription={propertyDescription}
-                  />
-                </Link>
-              </div>
+              <PropertyDescriptionComponent
+                key={propertyDescription.id}
+                propertyDescription={propertyDescription}
+                searchParams={searchParams}
+              />
             ),
           )}
         </div>

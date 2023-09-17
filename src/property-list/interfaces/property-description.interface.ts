@@ -15,6 +15,8 @@ export interface PropertyDescription {
   property_type: string;
   upvote: number;
   downvote: number;
+  latitude: number;
+  longitude: number;
 }
 
 export interface PropertyDetails {
@@ -33,8 +35,8 @@ export interface PropertyDetails {
   monthly_hoa: number;
   mls_number: number;
   identifier: string;
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
   upvote: number;
   downvote: number;
 }
