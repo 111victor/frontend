@@ -23,11 +23,13 @@ const VotingButtonsComponent = ({
         ...prevVotes,
         upvote: prevVotes.upvote + 1,
       }));
+      propertyDetail.upvote = propertyDetail.upvote + 1;
     } else if (action === actionTypes.downvote) {
       setVotes((prevVotes) => ({
         ...prevVotes,
         downvote: prevVotes.downvote + 1,
       }));
+      propertyDetail.downvote = propertyDetail.downvote + 1;
     }
     updateVote(id, action).then((res) => {
       console.log(res);

@@ -5,6 +5,8 @@ import { fetchPropertyLists } from "../../services/property.service";
 import { useSearchParams } from "react-router-dom";
 import TopNav from "../top-nav/top-nav";
 import { sortTypes } from "../../property- configs/property-configs";
+import LoadingSpinner from "../../component/spinner/loading-spinner.component";
+import PaginationComponent from "../../component/paginations/pagination-component";
 
 const deepSearch = (obj, searchTerm) => {
   for (const key in obj) {
@@ -30,7 +32,9 @@ const Properties = () => {
   const pageNumber = parseInt(searchParams.get("page")) || 1;
   const [propertyDescriptions, setPropertyDescriptions] = useState([]);
   const [nextPageNumber, setNextPageNumber] = useState(pageNumber);
+  const [startPage, setStartPage] = useState(0);
   const [sortType, setSortType] = useState("Recommended");
+  const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState({
     propertyType: [],
@@ -39,8 +43,17 @@ const Properties = () => {
   });
 
   const fetchNewProperties = (nextPageNumber, search?) => {
-    fetchPropertyLists(nextPageNumber, 10, search).then(
-      (propertyDescriptions) => {
+    setLoading(true);
+    const nextStartPage = Math.floor(nextPageNumber / 10);
+    if (startPage !== nextStartPage) {
+      if (nextStartPage > startPage && nextPageNumber % 10 !== 0) {
+        setStartPage(nextStartPage);
+      }
+    } else if (nextStartPage === startPage && nextPageNumber % 10 === 0) {
+      setStartPage(nextStartPage - 1);
+    }
+    fetchPropertyLists(nextPageNumber, 10, search)
+      .then((propertyDescriptions) => {
         const newPropertyDescriptions = [...propertyDescriptions];
         setPropertyDescriptions(newPropertyDescriptions);
         setNextPageNumber(nextPageNumber);
@@ -48,8 +61,11 @@ const Properties = () => {
           searchParams.set("page", nextPageNumber);
           return searchParams;
         });
-      },
-    );
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
   };
 
   const filteredProperties = propertyDescriptions.filter(
@@ -91,45 +107,36 @@ const Properties = () => {
         setSearchTerm={setSearchTerm}
         setSearchParams={setSearchParams}
       />
-      <div className="container">
-        <div className="row">
-          {filteredProperties.map(
-            (propertyDescription: PropertyDescription) => (
-              <PropertyDescriptionComponent
-                key={propertyDescription.id}
-                propertyDescription={propertyDescription}
-                searchParams={searchParams}
-              />
-            ),
-          )}
+      {!loading ? (
+        <div className="container">
+          <div className="row">
+            {filteredProperties.length ? (
+              filteredProperties.map(
+                (propertyDescription: PropertyDescription) => (
+                  <PropertyDescriptionComponent
+                    key={propertyDescription.id}
+                    propertyDescription={propertyDescription}
+                    searchParams={searchParams}
+                  />
+                ),
+              )
+            ) : (
+              <div>No results found</div>
+            )}
+          </div>
+          <PaginationComponent
+            nextPageNumber={nextPageNumber}
+            startPage={startPage}
+            fetchNewProperties={fetchNewProperties}
+            searchTerm={searchTerm}
+          />
         </div>
-        <nav aria-label="Page navigation example">
-          <ul className="pagination">
-            <li
-              onClick={() =>
-                fetchNewProperties(
-                  nextPageNumber === 1 ? 1 : nextPageNumber - 1,
-                  searchTerm ? searchTerm : null,
-                )
-              }
-              className={`page-item ${nextPageNumber === 1 ? "disabled" : ""}`}
-            >
-              <a className="page-link">Previous</a>
-            </li>
-            <li
-              onClick={() =>
-                fetchNewProperties(
-                  nextPageNumber + 1,
-                  searchTerm ? searchTerm : null,
-                )
-              }
-              className="page-item"
-            >
-              <a className="page-link">Next</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
+      ) : (
+        <div className="loading-overlay">
+          <h2>Loading...</h2>
+          <LoadingSpinner />
+        </div>
+      )}
     </div>
   );
 };
