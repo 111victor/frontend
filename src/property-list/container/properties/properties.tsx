@@ -8,6 +8,8 @@ import { sortTypes } from "../../property- configs/property-configs";
 import LoadingSpinner from "../../component/spinner/loading-spinner.component";
 import PaginationComponent from "../../component/paginations/pagination-component";
 
+//It is useful for searching proper within the current page. Leave it for future.
+
 const deepSearch = (obj, searchTerm) => {
   for (const key in obj) {
     if (obj.hasOwnProperty(key)) {

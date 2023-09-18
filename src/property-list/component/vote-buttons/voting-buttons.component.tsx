@@ -40,7 +40,9 @@ const VotingButtonsComponent = ({
     <div className="voting-buttons">
       <button
         className="upvote-button"
-        onClick={() => handleUpdateVote(propertyDetail.id, actionTypes.upvote)}
+        onClick={() => 
+          handleUpdateVote(propertyDetail.id, actionTypes.upvote)
+        }
       >
         <i className="fa fa-arrow-up"></i>
       </button>

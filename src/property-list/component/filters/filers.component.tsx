@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import "./filters.component.css";
 import { propertyTypes } from "../../property- configs/property-configs";
 

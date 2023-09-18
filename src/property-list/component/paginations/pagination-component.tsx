@@ -6,7 +6,8 @@ const PaginationComponent = ({
   fetchNewProperties,
   searchTerm,
 }) => {
-  const length = Math.min(
+  // Calculate for how many pages we need from our cached propertylist.
+  const pageNumber = Math.min(
     Math.ceil(cachePropertyListsLength(nextPageNumber, 10, searchTerm) / 10),
     10,
   );
@@ -29,7 +30,7 @@ const PaginationComponent = ({
               Previous
             </a>
           </li>
-          {[...Array(length)].map((item, index) => {
+          {[...Array(pageNumber)].map((item, index) => {
             const value = startPage * 10 + index + 1;
             return (
               <li
@@ -52,7 +53,7 @@ const PaginationComponent = ({
           })}
           <li
             onClick={() =>
-              nextPageNumber % 10 === length
+              nextPageNumber % 10 === pageNumber
                 ? null
                 : fetchNewProperties(
                     nextPageNumber + 1,
@@ -60,7 +61,7 @@ const PaginationComponent = ({
                   )
             }
             className={`page-item ${
-              nextPageNumber % 10 === length ? "disabled" : ""
+              nextPageNumber % 10 === pageNumber ? "disabled" : ""
             }`}
           >
             <a className="page-link" type="button">

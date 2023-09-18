@@ -6,6 +6,7 @@ const Search = ({ setSearchTerm, setSearchParams }) => {
     e.preventDefault();
     const newSearchTerm = searchRef.current.value;
     setSearchTerm(newSearchTerm);
+    // Save the searchTerm in the url
     setSearchParams((searchParams) => {
       searchParams.set("search", newSearchTerm);
       return searchParams;
