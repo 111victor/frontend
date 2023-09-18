@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { PropertyDescription } from "../../interfaces/property-description.interface";
 import PropertyDescriptionComponent from "../../component/property-description/property-description.component";
 import { fetchPropertyLists } from "../../services/property.service";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import TopNav from "../top-nav/top-nav";
 import { sortTypes } from "../../property- configs/property-configs";
 
@@ -38,14 +38,28 @@ const Properties = () => {
     bathrooms: "",
   });
 
+  const fetchNewProperties = (nextPageNumber, search?) => {
+    fetchPropertyLists(nextPageNumber, 10, search).then(
+      (propertyDescriptions) => {
+        const newPropertyDescriptions = [...propertyDescriptions];
+        setPropertyDescriptions(newPropertyDescriptions);
+        setNextPageNumber(nextPageNumber);
+        setSearchParams((searchParams) => {
+          searchParams.set("page", nextPageNumber);
+          return searchParams;
+        });
+      },
+    );
+  };
+
   const filteredProperties = propertyDescriptions.filter(
     (property: PropertyDescription) => {
       return (
         (!filters.propertyType.length ||
           filters.propertyType.includes(property.property_type)) &&
         (!filters.bedrooms || property.beds >= parseInt(filters.bedrooms)) &&
-        (!filters.bathrooms || property.baths >= parseInt(filters.bathrooms)) &&
-        deepSearch(property, searchTerm)
+        (!filters.bathrooms || property.baths >= parseInt(filters.bathrooms))
+        //  && deepSearch(property, searchTerm)
       );
     },
   );
@@ -62,31 +76,22 @@ const Properties = () => {
     filteredProperties.sort((a, b) => b.downvote - a.downvote);
   }
 
-  const fetchNewProperties = (nextPageNumber) => {
-    fetchPropertyLists(nextPageNumber, 10).then((propertyDescriptions) => {
-      const newUserInfos = [...propertyDescriptions];
-      setPropertyDescriptions(newUserInfos);
-      setNextPageNumber(nextPageNumber);
-      setSearchParams({ page: nextPageNumber });
-    });
-  };
-
   useEffect(() => {
-    fetchNewProperties(pageNumber);
-  }, []);
+    const searchQuery = searchParams.get("search");
+    setSearchTerm(searchQuery || "");
+    fetchNewProperties(pageNumber, searchQuery);
+  }, [searchTerm]);
 
   return (
-    <>
+    <div>
+      <TopNav
+        setFilters={setFilters}
+        sortType={sortType}
+        setSortType={setSortType}
+        setSearchTerm={setSearchTerm}
+        setSearchParams={setSearchParams}
+      />
       <div className="container">
-        <div>
-          <TopNav
-            setFilters={setFilters}
-            sortType={sortType}
-            setSortType={setSortType}
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-          />
-        </div>
         <div className="row">
           {filteredProperties.map(
             (propertyDescription: PropertyDescription) => (
@@ -104,6 +109,7 @@ const Properties = () => {
               onClick={() =>
                 fetchNewProperties(
                   nextPageNumber === 1 ? 1 : nextPageNumber - 1,
+                  searchTerm ? searchTerm : null,
                 )
               }
               className={`page-item ${nextPageNumber === 1 ? "disabled" : ""}`}
@@ -111,7 +117,12 @@ const Properties = () => {
               <a className="page-link">Previous</a>
             </li>
             <li
-              onClick={() => fetchNewProperties(nextPageNumber + 1)}
+              onClick={() =>
+                fetchNewProperties(
+                  nextPageNumber + 1,
+                  searchTerm ? searchTerm : null,
+                )
+              }
               className="page-item"
             >
               <a className="page-link">Next</a>
@@ -119,7 +130,7 @@ const Properties = () => {
           </ul>
         </nav>
       </div>
-    </>
+    </div>
   );
 };
 

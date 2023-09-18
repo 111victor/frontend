@@ -8,9 +8,14 @@ import { AppConfig, propertyApiUri } from "../../config/app.config";
 export const fetchPropertyLists = (
   pageNumber: number = 1,
   limit: number = 10,
+  search?: string,
 ): Promise<PropertyDescription[]> => {
+  let apiUrl = `${propertyApiUri}?page=${pageNumber}&limit=${limit}`;
+  if (search) {
+    apiUrl += `&search=${search}`;
+  }
   return axios
-    .get(`${propertyApiUri}?page=${pageNumber}&limit=${limit}`)
+    .get(apiUrl)
     .then(({ data }) => data.propertyListDescription)
     .catch((error) => {
       console.error(error);

@@ -1,11 +1,20 @@
 import { useRef } from "react";
 
-const Search = ({ searchTerm, setSearchTerm }) => {
+const Search = ({ setSearchTerm, setSearchParams }) => {
+  let searchRef = useRef(null);
+  const submitSearch = (e) => {
+    e.preventDefault();
+    const newSearchTerm = searchRef.current.value;
+    setSearchTerm(newSearchTerm);
+    setSearchParams((searchParams) => {
+      searchParams.set("search", newSearchTerm);
+      return searchParams;
+    });
+  };
   return (
-    <form className="d-flex">
+    <form className="d-flex" onSubmit={submitSearch}>
       <input
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        ref={searchRef}
         className="form-control me-2"
         type="search"
         placeholder="Search"

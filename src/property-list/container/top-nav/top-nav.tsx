@@ -6,15 +6,13 @@ const TopNav = ({
   setFilters,
   sortType,
   setSortType,
-  searchTerm,
   setSearchTerm,
+  setSearchParams,
 }) => {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">
-          Navbar
-        </a>
+        <a className="navbar-brand">Red(it)fin</a>
         <button
           className="navbar-toggler"
           type="button"
@@ -26,10 +24,16 @@ const TopNav = ({
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        <div
+          className="collapse navbar-collapse justify-content-evenly"
+          id="navbarSupportedContent"
+        >
           <FilterComponent setFilters={setFilters} />
           <Sort sortType={sortType} setSortType={setSortType} />
-          <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+          <Search
+            setSearchTerm={setSearchTerm}
+            setSearchParams={setSearchParams}
+          />
         </div>
       </div>
     </nav>
