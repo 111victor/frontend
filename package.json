@@ -17,7 +17,6 @@
   },
   "main": "/index.ts",
   "scripts": {
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -47,8 +46,12 @@
     "prettier": "3.0.3"
   },
   "lint-staged": {
+    "*.{js,json,scss}": [
+      "prettier --write"
+    ],
     "*.ts": [
-      "npm run format"
+      "prettier --write",
+      "eslint --fix"
     ]
   },
   "husky": {
