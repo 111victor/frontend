@@ -47,8 +47,9 @@ const Properties = () => {
   const fetchNewProperties = (nextPageNumber, search?) => {
     setLoading(true);
     const nextStartPage = Math.floor(nextPageNumber / 10);
+    console.log(nextStartPage);
     if (startPage !== nextStartPage) {
-      if (nextStartPage > startPage && nextPageNumber % 10 !== 0) {
+      if ((nextStartPage > startPage && nextPageNumber % 10 !== 0) || (nextStartPage < startPage)) {
         setStartPage(nextStartPage);
       }
     } else if (nextStartPage === startPage && nextPageNumber % 10 === 0) {
