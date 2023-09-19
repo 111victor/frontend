@@ -3,7 +3,7 @@ import { formatAddress, formatCurrency } from "../../transformers/transformers";
 import "./property-description.component.css";
 import VotingButtonsComponent from "../vote-buttons/voting-buttons.component";
 import GoogleMap from "../google-map/google-map.component";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const PropertyDescriptionComponent = ({
   propertyDescription,
@@ -13,7 +13,7 @@ const PropertyDescriptionComponent = ({
   searchParams: any;
 }) => {
   return (
-    <div className="col-sm-3 py-2" key={propertyDescription.id}>
+    <div className="col-4 py-2" key={propertyDescription.id}>
       <div className="card">
         <GoogleMap
           id={propertyDescription.id}

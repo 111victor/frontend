@@ -9,6 +9,7 @@ const Search = ({ setSearchTerm, setSearchParams }) => {
     // Save the searchTerm in the url
     setSearchParams((searchParams) => {
       searchParams.set("search", newSearchTerm);
+      searchParams.set("page", 1);
       return searchParams;
     });
   };
