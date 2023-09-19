@@ -47,10 +47,15 @@ const Properties = () => {
   const fetchNewProperties = (nextPageNumber, search?) => {
     setLoading(true);
     const nextStartPage = Math.floor(nextPageNumber / 10);
-    console.log(nextStartPage);
     if (startPage !== nextStartPage) {
-      if ((nextStartPage > startPage && nextPageNumber % 10 !== 0) || (nextStartPage < startPage)) {
-        setStartPage(nextStartPage);
+      if (
+        (nextStartPage - 1 === startPage && nextPageNumber % 10 !== 0) ||
+        nextStartPage < startPage ||
+        nextStartPage - 1 > startPage
+      ) {
+        setStartPage(
+          nextPageNumber % 10 === 0 ? nextStartPage - 1 : nextStartPage,
+        );
       }
     } else if (nextStartPage === startPage && nextPageNumber % 10 === 0) {
       setStartPage(nextStartPage - 1);
