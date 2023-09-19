@@ -53,7 +53,7 @@ const PaginationComponent = ({
           })}
           <li
             onClick={() =>
-              nextPageNumber % 10 === pageNumber
+              nextPageNumber % 10 === pageNumber || pageNumber === 0
                 ? null
                 : fetchNewProperties(
                     nextPageNumber + 1,
@@ -61,7 +61,9 @@ const PaginationComponent = ({
                   )
             }
             className={`page-item ${
-              nextPageNumber % 10 === pageNumber ? "disabled" : ""
+              nextPageNumber % 10 === pageNumber || pageNumber === 0
+                ? "disabled"
+                : ""
             }`}
           >
             <a className="page-link" type="button">
